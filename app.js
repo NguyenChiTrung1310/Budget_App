@@ -31,33 +31,65 @@ var UIController = (function () {
 
 // Budget Controller (independent)
 var budgetController = (function () {
+    var Incomes = function (id, description, value) {
+        this.id = id;
+        this.dedescription = description;
+        this.value = value;
+    }
 
+    var Expenses = function (id, description, value) {
+        this.id = id;
+        this.dedescription = description;
+        this.value = value;
+    }
+
+    data = {
+        allItems: {
+            inc: [],
+            exp: []
+        },
+        totals: {
+            inc: 0,
+            exp: 0
+        }
+    }
+
+    return {
+        addItem: function (type, des, val) {
+
+        }
+    }
 })();
 
 
 
 // Controller (connect 2 modules)
 var controller = (function (budgetCtrl, UICtrl) {
+    var setupEventListener = function () {
+        var DOM = UICtrl.getDOMstring(); // DOM id input
 
+        document.querySelector(DOM.inputBtn).addEventListener('click', addItem); // Handle event button click
 
-    var DOM = UICtrl.getDOMstring(); // DOM id input
-
+        document.addEventListener('keypress', function (event) { // Handle event button press
+            if (event.keyCode === 13 || event.which === 13) // property 'which' use for old browser
+            {
+                addItem();
+            }
+        });
+    }
 
     var addItem = function () { // get input value function
         var input = UICtrl.getInput();
         console.log(input);
     }
 
-
-
-    document.querySelector(DOM.inputBtn).addEventListener('click', addItem); // Handle event button click
-
-
-    document.addEventListener('keypress', function (event) { // Handle event button press
-        if (event.keyCode === 13 || event.which === 13) // property 'which' use for old browser
-        {
-            addItem();
+    return {
+        init: function () {
+            console.log('Application has started!');
+            setupEventListener();
         }
-    });
+    }
 
 })(budgetController, UIController);
+
+controller.init();
